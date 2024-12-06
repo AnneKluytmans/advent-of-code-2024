@@ -1,10 +1,8 @@
 package Day1HistorianHysteria;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
-public class HistorianLocationsLists {
+public class HistorianLocationLists {
     public static void main(String[] args) {
         String leftListInput =
                 "57643\n" +
@@ -2025,6 +2023,19 @@ public class HistorianLocationsLists {
         }
 
         System.out.println("Total distance: " + totalDistance);
+
+        Map<Integer, Integer> rightListCounts = new HashMap<>();
+        for (int num : rightList) {
+            rightListCounts.put(num, rightListCounts.getOrDefault(num, 0) + 1);
+        }
+
+        int similarityScore = 0;
+        for (int num : leftList) {
+            int countInRightList = rightListCounts.getOrDefault(num, 0);
+            similarityScore += num * countInRightList;
+        }
+
+        System.out.println("Similarity score: " + similarityScore);
     }
 
     public static String[] splitStringByEnter(String input) {
