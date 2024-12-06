@@ -1020,7 +1020,7 @@ public class SafeReports {
             }
             System.out.println("Levels: " + Arrays.toString(levels));
 
-            if (isReportSafe(levels)) {
+            if (isReportSafe(levels) || isReportSafeByRemovingOneLevel(levels)) {
                 safeReportsCount++;
             }
         }
@@ -1048,6 +1048,23 @@ public class SafeReports {
             }
         }
         return isIncreasing || isDecreasing;
+    }
+
+    public static boolean isReportSafeByRemovingOneLevel(int[] levels) {
+        for (int i = 0; i < levels.length; i++) {
+            int[] newLevels = new int[levels.length - 1];
+            int index = 0;
+            for (int j = 0; j < levels.length; j++) {
+                if (j != i) {
+                    newLevels[index++] = levels[j];
+                }
+            }
+
+            if (isReportSafe(newLevels)) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }
