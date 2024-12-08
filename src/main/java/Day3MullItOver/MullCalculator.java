@@ -11,19 +11,35 @@ public class MullCalculator {
                 "}where(174,722)({(/ *mul(582,635){what()~/:mul(470,940)where()'&mul(222,145)mul(880,163)$%*#>@how()how()%mul(25,277)(how(),-why(138,788)mul(41,986)]%when()from();<mul(362,999)select(),<^select()where()mul(768,107)select(){^}}(select()-mul(168,428)when()where()when()mul(179,874)when()-mul(835,227)]*%;how()'(mul(566,914) <do()@{ mul(438,926)[])!#;+mul(105,95)%[%~&?what(){mul(823,678)-what()mul(109,261)]{}mul(641,489)]~} +when()mul(921,460)who()(where():/ '+]mul(837,808)///?)$what()}mul(725,517])how()&[~[mul(837,920)how()~$&;</*mul(211,958))mul;(,where()mul(902,856)}!how()select()$:+mul(483,84)where()@>who(869,346)how()*why()([#mul(52,895)>don't()>+}!how()when()when()%#when()mul(765,168)from()mul(710,790)^#&~+select()mul(868,851)<where()mul(517,296)}how() +{]mul(401,32)mul(822,869)-when(940,602)who()~!where()mul(862,748)when()[:when()%why()mul(608,342)mul(357,681)%]$#!~)mul(303,13),how()what()mul(323,541)!()where()>from()how()->don't()^what()#>who()<;mul(722,400)~mul(217,112)from(90,168)!]when()$mul(806,665)%}>who()%-~mul(94,953)[-/*mul(322,64)when()mul(214,392)how()-{$:}don't() why(){,-who(703,968)!-mul(251,12)how()who()?from(538,173)&%@mul(318,562)how(),select()&,how()where()mul(239,777);~-mul(354,576)/~@$!^[when()mul(274,212)why()*mul(184,508)who()<@#do()]+where()mul(328,716)select();%mul(459,510)^'*when(632,422)+#where()how()select(260,585)^don't()^from()]$select()(who()how():%mul(35,792)mul(884,132)#mul(634,560),who()who();mul(759,868)/mul(688,411)why()mul(850,281)?--(>]mul(348,71)mul(725,441)who() select()*mul(373,244):why()who()<mul(554,7)from()^@&where()@^mul(561,205),why()}mul,>!,%&/select()mul(266,281):-what()',%select(769,776)[when()mul(478,447)when()^select()%mul(834,170)mul(867,978)}^-!how()how()@mul(884,586);!-}mul(681,431)who()[select(),}from()>@,)mul(358,409)+*/{when()@mul(798,937)^@mul(811,516)mul(683,569)when(222,647)what(240,706)why()mul(271,504),what()[)#mul(194,749)why())select()mul(452,63)[how()mul(675,660)<}*!-]~!'>mul(604,21)<where()mul(393,791)%who()/what()/~#mul(947,930)'-mul(361,577)>:who()?(>[mul(650,115)})]<;%mul(384,732)*mul(749,686)where()mul(524,177)^'+! >mul(698,944)*where()!^@]how()don't()-mul(573,409)$><&'*mul(985,814):from()mul(531,513)%]when() [!how()[]mul(322,404){;do()-mul(760,394)]mul(845,760)mul(691,945)why()}$/,mul(589,837)'$[[+&>mul(864,413)%~when()@'mul(650,851)$why()!where()!from()mul(437,509)why()mul(671,154)'+^#]how(),how()mul(248,241)mul(36,707):/~$%~>mul(415,475)select())(~(where())}mul(956,228)mul(310,43)how()$how()[how()~from()mul(230,10)what()'when()what()~why();:how()mul(219,566)how()*$#,>don't()[how()[,:]}%@%mul(907,64)@&why():]$)!mul(469,550))<]mul(328,818),from()why()]do()^'mul(525,979)how()<;]$+mul(451,350)~who()/'*<mul(824,446)^where()how()mul(212,756)</^mul(59,557)+mul(810,500)@/ -?:~+mul(957,32)how()}>what()]!$mul(322,822)mul(837,964),mul(997,114)??]how()mul(326,455)\n" +
                 "+!!who(111,197)<#mul(927,707)~@-()'mul(310,954)select()~;>%'don't()/mul(111,300)select()^#<,+-*when()where()mul(853,48)},where()<} do()>why()[* :mul(329,340)mul(775,432),what()]#select():mul[how()mul(975,305)don't() mul(380,23)<mul(610,328)$mul(547,22)how()where()select()'-when()select()how()*do()when()*&{@mul(509,794)'/^who(){what(){who()what()why(559,447)mul(527,574){*mul(640,883)~[, >^-^*mul(92,490)<?:#!);'mul(830,759)^-*~:?when()mul(658,459)who()do()%; %mul(901,84)@  {);mul(176,691)select()&]&[:[when()(who()mul(787,832)(({>!who()from()}@mul(482,720)/+mul(341,296)/%)%}$mul(199,41)?;select()mul(952,575)+%!;from()mul(629,288)from()mul(261,169) $when()mul(137,539)mul'who())who()# :,#!how()mul(712,429)^how()who()?;mul(572,59)>{ @mul(471,598)(>}select()*+mul(482,644)select()^why()select()+~!where(),mul(5,217)^>mul(927,157)mul(192,700)mul(598where()(}who()mul(914,246)mul(146,709),mul(545,12)mul(531,165)>#-&!*}mul(861,209)}{how()??(mul(469,555)/<:]}+%select()?mul(544,310){select()mul(549,681)+@^$ {?)%mul(625,262)%mul(658,715)-where()?/]who()* $&don't()what(366,880))mul(339,633)mul(282,510)-?'mul(538,886)mul(431,412)select()?# ]]mul(16,157)}}(!select()/mul(925,798);what(934,305)*[+-$why()what()mul(882,680)-/mul(554,323)/)where()when(),mul(384,806)~where()select()why()}what()[mul(291,811)&!how()&)where()@mul(675,825)when()mul(703,914)%-% ?@mul(733,721)/'*<mul(404,764)?!&mul(302,783)%/where();-,why()*mul(106,771)mul(422,483)!/?!from(746,984)don't()from(818,501)when()$;,'#>what()mul(452,139);>!how()(~how(681,256)&who(740,533)don't()#%why()+where()~mul(52,930):+ /do()&&:how()why()'mul(673,741)}where()don't()(who()mul(496,885)/mul(126,603)what()select()who(301,758)when()from()-mul(890,826)>]when()^>mul(231,474)!when(456,931)!where()[ how()+!-don't()mul(168,864)?mul(711,701) +^:: mul(243,505)!from()-+'?<select()mul(893,538)&-:mul(871,651)[from())(don't()({'@;&#mul(406,612)mul(52,182)[mul(785,121) mul(497,363)(who()(),mul(799,612))from()mul(518,886);&&%}who()^!mul(706,840)/mul(846,51)#>~;when()how():who()mul(482,341)<>!'where()why()}+mul(690,370)&#who()mul(682,266):@,+]^@-$mul(228,532)+#+where()from())'mul(547,133)@*mul(764,842)mul(181,500)*%!'/]mul(366,266)>](?>*<:why())mul(786,240)/ mul(980,844):@;![mul(932,294)[mul(582,252),when()?why(),~how()mul(619,83)why()??(^select()!mul(915,820)from()[+^don't();:# ]mul(421,350)'}how()mul(429,848)~$!select() ?/+/)mul(393,36)what(),%<-;+~mul(333,687)$(select(){{<select()what()mul(156,751) >-what(),mul(364,843))how()mul(148,833)how()'from()from():[}$mul(134,950)from()what() (what()mul(512,454)how(),mul(775,814):select(820,315),from()>who()how():**mul(329,285)where()?don't()!/->~/' mul(873,470)+-[(select()from()select()/why()?mul(911,768)what(805,778)mul(690,737)from()who())select()<~mul(248,530)mul(638,821)mul(218,217)(^why();&mul(684,550)";
 
-        String regex = "mul\\((\\d{1,3}),(\\d{1,3})\\)";
+        String regex = "do\\(\\)|don't\\(\\)|mul\\((\\d{1,3}),(\\d{1,3})\\)";
 
         Pattern pattern = Pattern.compile(regex);
+        int total = getTotal(pattern, mullInput);
+
+        System.out.println("Total: " + total);
+
+    }
+
+    private static int getTotal(Pattern pattern, String mullInput) {
         Matcher matcher = pattern.matcher(mullInput);
 
         int total = 0;
+        boolean enabled = true;
 
         while (matcher.find()) {
-            int x = Integer.parseInt(matcher.group(1));
-            int y = Integer.parseInt(matcher.group(2));
-            total += x * y;
-        }
+            String match = matcher.group();
+            if (match.equals("do()")) {
+                enabled = true;
+            } else if (match.equals("don't()")) {
+                enabled = false;
+            }
 
-        System.out.println("Total: " + total);
+            if (enabled && match.startsWith("mul(")) {
+                int x = Integer.parseInt(matcher.group(1));
+                int y = Integer.parseInt(matcher.group(2));
+                total += x * y;
+            }
+        }
+        return total;
     }
 }
