@@ -169,14 +169,28 @@ public class WordSearch {
 
         for (int row = 0; row < rows; row++) {
             for (int col = 0; col < cols; col++) {
-                if ( checkRight(board, row, col, word) ||
-                        checkLeft(board, row, col, word) ||
-                        checkDown(board, row, col, word) ||
-                        checkUp(board, row, col, word) ||
-                        checkDiagonalDownLeft(board, row, col, word) ||
-                        checkDiagonalDownRight(board, row, col, word) ||
-                        checkDiagonalUpLeft(board, row, col, word) ||
-                        checkDiagonalUpRight(board, row, col, word)) {
+                if (checkRight(board, row, col, word)) {
+                    count++;
+                }
+                if (checkLeft(board, row, col, word)) {
+                    count++;
+                }
+                if (checkDown(board, row, col, word)) {
+                    count++;
+                }
+                if (checkUp(board, row, col, word)) {
+                    count++;
+                }
+                if (checkDiagonalDownRight(board, row, col, word)) {
+                    count++;
+                }
+                if (checkDiagonalDownLeft(board, row, col, word)) {
+                    count++;
+                }
+                if (checkDiagonalUpRight(board, row, col, word)) {
+                    count++;
+                }
+                if (checkDiagonalUpLeft(board, row, col, word)) {
                     count++;
                 }
             }
