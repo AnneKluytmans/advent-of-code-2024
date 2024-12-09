@@ -3,17 +3,7 @@ package Day4CeresSearch;
 public class WordSearch {
     public static void main(String[] args) {
         PuzzleInput puzzleInput = new PuzzleInput();
-        String puzzle = puzzleInput.getPuzzleInput();
-
-        String[] puzzleBoardRows = puzzle.split("\n");
-        int rows = puzzleBoardRows.length;
-        int cols = puzzleBoardRows[0].length();
-
-        char[][] puzzleBoard = new char[rows][cols];
-
-        for (int i = 0; i < rows; i++) {
-            puzzleBoard[i] = puzzleBoardRows[i].toCharArray();
-        }
+        char[][] puzzleBoard = puzzleInput.createPuzzleBoard();
 
 //        for (char[] row : puzzleBoard) {
 //            System.out.println(Arrays.toString(row));

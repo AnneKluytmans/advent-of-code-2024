@@ -145,4 +145,18 @@ public class PuzzleInput {
     public String getPuzzleInput() {
         return puzzleInput;
     }
+
+    public char[][] createPuzzleBoard() {
+        String[] puzzleBoardRows = puzzleInput.split("\n");
+        int rows = puzzleBoardRows.length;
+        int cols = puzzleBoardRows[0].length();
+
+        char[][] puzzleBoard = new char[rows][cols];
+
+        for (int i = 0; i < rows; i++) {
+            puzzleBoard[i] = puzzleBoardRows[i].toCharArray();
+        }
+
+        return puzzleBoard;
+    }
 }
