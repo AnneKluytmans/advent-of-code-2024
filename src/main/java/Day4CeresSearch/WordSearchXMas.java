@@ -1,6 +1,6 @@
 package Day4CeresSearch;
 
-public class WordSearchXShape {
+public class WordSearchXMas {
     public static void main(String[] args) {
         PuzzleInput puzzleInput = new PuzzleInput();
         char[][] puzzleBoard = puzzleInput.createPuzzleBoard();
