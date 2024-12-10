@@ -1381,15 +1381,21 @@ public class PrintUpdates {
         Map<Integer, List<Integer>> orderingRules = parseOrderingRules(orderingRulesInput);
         List<List<Integer>> updates = parseUpdates(updatePagesInput);
 
-        int totalSumMiddlePages = 0;
+        int totalSumMiddlePagesCorrectUpdates = 0;
+        int totalSumMiddlePagesFixedUpdates = 0;
         for (List<Integer> update : updates) {
             if (isValidUpdate(update, orderingRules)) {
                 int middlePage = update.get(update.size() / 2);
-                totalSumMiddlePages += middlePage;
+                totalSumMiddlePagesCorrectUpdates += middlePage;
+            } else {
+                List<Integer> fixedUpdate = fixUpdate(update, orderingRules);
+                int middlePage = fixedUpdate.get(fixedUpdate.size() / 2);
+                totalSumMiddlePagesFixedUpdates += middlePage;
             }
         }
 
-        System.out.println("Total sum middle pages: " + totalSumMiddlePages);
+        System.out.println("Total sum middle pages correct updates: " + totalSumMiddlePagesCorrectUpdates);
+        System.out.println("Total sum middle pages fixed updates: " + totalSumMiddlePagesFixedUpdates);
     }
 
     private static Map<Integer, List<Integer>> parseOrderingRules(String input) {
@@ -1443,5 +1449,32 @@ public class PrintUpdates {
             }
         }
         return true;
+    }
+
+    private static List<Integer> fixUpdate(List<Integer> update, Map<Integer, List<Integer>> rules) {
+        List<Integer> fixedUpdate = new ArrayList<>(update);
+
+        boolean sorted = false;
+        while (!sorted) {
+            sorted = true;
+
+            for (Map.Entry<Integer, List<Integer>> entry : rules.entrySet()) {
+                int x = entry.getKey();
+                for (int y : entry.getValue()) {
+
+                    if (fixedUpdate.contains(x) && fixedUpdate.contains(y)) {
+                        int indexX = fixedUpdate.indexOf(x);
+                        int indexY = fixedUpdate.indexOf(y);
+                        if (indexX > indexY) {
+                            fixedUpdate.set(indexX, y);
+                            fixedUpdate.set(indexY, x);
+                            sorted = false;
+                        }
+                    }
+                }
+            }
+        }
+
+        return fixedUpdate;
     }
 }

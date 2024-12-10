@@ -107,7 +107,8 @@ and 47. Adding these together produces 123.
 Find the updates which are not in the correct order. What do you get if you add up the middle page numbers after 
 correctly ordering just those updates?
 
-Answer:
+Your puzzle answer was 5093.
 
+Both parts of this puzzle are complete! They provide two gold stars: **
 
-Although it hasn't changed, you can still get your puzzle input.
+At this point, you should return to your Advent calendar and try another puzzle.
