@@ -89,3 +89,7 @@ Predict the path of the guard. How many distinct positions will the guard visit 
 
 To begin, get your puzzle input (https://adventofcode.com/2024/day/6/input).
 
+Your puzzle answer was 5086.
+
+The first half of this puzzle is complete! It provides one gold star: *
+
