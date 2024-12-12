@@ -1,89 +1,111 @@
 package Day6GuardGallivant;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import static Day6GuardGallivant.PuzzleInput.mapInput;
+import java.util.*;
 
 public class GuardLoop {
     public static void main(String[] args) {
-        int startX = 0;
-        int startY = 0;
-        char direction = '^';
-
-        PuzzleInput puzzleInput = new PuzzleInput(mapInput, direction);
+        PuzzleInput puzzleInput = new PuzzleInput(PuzzleInput.mapInput, '^');
         String[] map = puzzleInput.getMap();
         int[][] directions = puzzleInput.getDirections();
-        int dirIndex = puzzleInput.getDirIndex();
+        int[] start = findGuardStart(map, '^');
+        int startCol = start[1];
+        int startRow = start[0];
 
-        for (int y = 0; y < map.length; y++) {
-            for (int x = 0; x < map[y].length(); x++) {
-                char c = map[y].charAt(x);
-                if (c == '^' || c == '>' || c == '<' || c == 'v') {
-                    startX = x;
-                    startY = y;
-                    direction = c;
-                    break;
-                }
-            }
-        }
+        Set<String> loopObstructionPositions = findLoopObstructions(map, directions, startRow, startCol);
 
-        Set<String> validObstructions = new HashSet<>();
+        System.out.println("Possible obstruction positions: " + loopObstructionPositions);
+        System.out.println("Number of obstruction positions: " + loopObstructionPositions.size());
+    }
 
-        for (int y = 0; y < map.length; y++) {
-            for (int x = 0; x < map[y].length(); x++) {
-                if (map[y].charAt(x) == '.' && !(x == startX && y == startY)) {
-                    if (causesLoop(map, startX, startY, dirIndex, directions, x, y)) {
-                        validObstructions.add(x + "," + y);
+    public static Set<String> findLoopObstructions(String[] map, int[][] directions, int startRow, int startCol) {
+        Set<String> obstructionPositions = new HashSet<>();
+        int rows = map.length;
+        int cols = map[0].length();
+
+        for (int r = 0; r < rows; r++) {
+            for (int c = 0; c < cols; c++) {
+                if (map[r].charAt(c) == '.') { // Alleen lege plekken testen
+                    if (causesLoopWithObstruction(map, directions, startRow, startCol, r, c)) {
+                        obstructionPositions.add(r + "," + c);
                     }
                 }
             }
         }
 
-        System.out.println("Valid obstructions : " + validObstructions.size());
+        return obstructionPositions;
     }
 
-    private static boolean causesLoop(String[] map, int startX, int startY, int dirIndex, int[][] directions, int obsX, int obsY) {
-        Set<String> visited = new HashSet<>();
-        int x = startX;
-        int y = startY;
-        int directionIndex = dirIndex;
+    public static boolean causesLoopWithObstruction(String[] map, int[][] directions, int startRow, int startCol, int obstructionRow, int obstructionCol) {
+        // Maak een kopie van de kaart met de obstructie toegevoegd
+        String[] tempMap = map.clone();
+        char[] tempRow = tempMap[obstructionRow].toCharArray();
+        tempRow[obstructionCol] = '#';
+        tempMap[obstructionRow] = new String(tempRow);
 
-        char[][] tempMap = copyMap(map);
-        tempMap[obsY][obsX] = '#';
+        // Simuleer de beweging van de bewaker
+        int row = startRow;
+        int col = startCol;
+        int dirIndex = 0; // Start richting is naar boven ('^')
+        List<String> visitedStates = new ArrayList<>();
 
-        while (true) {
-            String state = x + "," + y + "," + directionIndex;
+        int stepCount = 0;
+        int maxSteps = 4 * countFreeTiles(map); // Maximale stappen op basis van vrije tegels
 
-            if (visited.contains(state)) {
-                return true;
+        while (stepCount <= maxSteps) {
+            String state = row + "," + col + "," + dirIndex;
+
+            if (visitedStates.contains(state)) {
+                int firstOccurrence = visitedStates.indexOf(state);
+                List<String> loopSequence = visitedStates.subList(firstOccurrence, visitedStates.size());
+
+                // Controleer of de loop hetzelfde patroon herhaalt
+                if (loopSequence.equals(visitedStates.subList(firstOccurrence, visitedStates.size()))) {
+                    return true; // Cyclus gedetecteerd
+                }
             }
-            visited.add(state);
 
-            if (x < 0 || y < 0 || y >= tempMap.length || x >= tempMap[0].length) {
-                break;
+            visitedStates.add(state);
+            stepCount++;
+
+            int nextRow = row + directions[dirIndex][0];
+            int nextCol = col + directions[dirIndex][1];
+
+            if (nextRow < 0 || nextRow >= tempMap.length || nextCol < 0 || nextCol >= tempMap[0].length() ||
+                    tempMap[nextRow].charAt(nextCol) == '#') {
+                // Draai naar rechts als er een muur of obstructie is
+                dirIndex = (dirIndex + 1) % 4;
+            } else {
+                // Beweeg naar de volgende positie
+                row = nextRow;
+                col = nextCol;
             }
-
-            int nextX = x + directions[directionIndex][0];
-            int nextY = y + directions[directionIndex][1];
-
-            if (nextX >= 0 && nextY >= 0 && nextY < tempMap.length && nextX < tempMap[0].length && tempMap[nextY][nextX] == '#') {
-                directionIndex = (directionIndex + 1) % 4;
-                continue;
-            }
-
-            x = nextX;
-            y = nextY;
-
         }
-        return false;
+
+        return false; // Geen cyclus gevonden binnen limiet aantal stappen
     }
 
-    private static char[][] copyMap(String[] map) {
-        char[][] newMap = new char[map.length][];
-        for (int i = 0; i < map.length; i++) {
-            newMap[i] = map[i].toCharArray();
+    public static int countFreeTiles(String[] map) {
+        int count = 0;
+        for (String row : map) {
+            for (char c : row.toCharArray()) {
+                if (c == '.') {
+                    count++;
+                }
+            }
         }
-        return newMap;
+        return count;
+    }
+
+
+    public static int[] findGuardStart(String[] map, char guardSymbol) {
+        for (int r = 0; r < map.length; r++) {
+            for (int c = 0; c < map[r].length(); c++) {
+                if (map[r].charAt(c) == guardSymbol) {
+                    return new int[]{r, c};
+                }
+            }
+        }
+        throw new IllegalArgumentException("Guard not found on the map!");
     }
 }
+
