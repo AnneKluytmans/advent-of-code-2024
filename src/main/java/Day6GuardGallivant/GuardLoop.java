@@ -1,8 +1,6 @@
 package Day6GuardGallivant;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import static Day6GuardGallivant.PuzzleInput.mapInput;
@@ -46,62 +44,46 @@ public class GuardLoop {
     }
 
     private static boolean causesLoop(String[] map, int startX, int startY, int dirIndex, int[][] directions, int obsX, int obsY) {
-        String[] tempMap = new String[map.length];
-        for (int i = 0; i < map.length; i++) {
-            tempMap[i] = new String(map[i]);
-        }
-        char[] tempRow = tempMap[obsY].toCharArray();
-        tempRow[obsX] = '#';
-        tempMap[obsY] = new String(tempRow);
+        Set<String> visited = new HashSet<>();
+        int x = startX;
+        int y = startY;
+        int directionIndex = dirIndex;
 
-        List<String> movementHistory = new ArrayList<>();
-        movementHistory.add(startX + "," + startY);
-
-        int curX = startX;
-        int curY = startY;
+        char[][] tempMap = copyMap(map);
+        tempMap[obsY][obsX] = '#';
 
         while (true) {
-            int nextX = curX + directions[dirIndex][1];
-            int nextY = curY + directions[dirIndex][0];
+            String state = x + "," + y + "," + directionIndex;
 
-            if (nextX < 0 || nextX >= tempMap[0].length() || nextY < 0 || nextY >= tempMap.length) {
+            if (visited.contains(state)) {
+                return true;
+            }
+            visited.add(state);
+
+            if (x < 0 || y < 0 || y >= tempMap.length || x >= tempMap[0].length) {
                 break;
             }
 
-            if (tempMap[nextY].charAt(nextX) == '#') {
-                dirIndex = (dirIndex + 1) % directions.length;
+            int nextX = x + directions[directionIndex][0];
+            int nextY = y + directions[directionIndex][1];
+
+            if (nextX >= 0 && nextY >= 0 && nextY < tempMap.length && nextX < tempMap[0].length && tempMap[nextY][nextX] == '#') {
+                directionIndex = (directionIndex + 1) % 4;
                 continue;
             }
 
-            curX = nextX;
-            curY = nextY;
+            x = nextX;
+            y = nextY;
 
-            String position = curX + "," + curY;
-            movementHistory.add(position);
-
-            if (hasRepeatingPattern(movementHistory)) {
-                return true;
-            }
         }
         return false;
     }
 
-
-    // Hulpmethode om herhalende patronen te detecteren
-    private static boolean hasRepeatingPattern(List<String> history) {
-        int size = history.size();
-        for (int len = 1; len <= size / 2; len++) {
-            boolean repeating = true;
-            for (int i = 0; i < len; i++) {
-                if (!history.get(size - len - i - 1).equals(history.get(size - i - 1))) {
-                    repeating = false;
-                    break;
-                }
-            }
-            if (repeating) {
-                return true;
-            }
+    private static char[][] copyMap(String[] map) {
+        char[][] newMap = new char[map.length][];
+        for (int i = 0; i < map.length; i++) {
+            newMap[i] = map[i].toCharArray();
         }
-        return false;
+        return newMap;
     }
 }
