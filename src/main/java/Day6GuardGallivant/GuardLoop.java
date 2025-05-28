@@ -45,23 +45,17 @@ public class GuardLoop {
         // Simuleer de beweging van de bewaker
         int row = startRow;
         int col = startCol;
-        int dirIndex = 0; // Start richting is naar boven ('^')
-        List<String> visitedStates = new ArrayList<>();
+        int dirIndex = 0;
+        Set<String> visitedStates = new HashSet<>();
 
         int stepCount = 0;
-        int maxSteps = 4 * countFreeTiles(map); // Maximale stappen op basis van vrije tegels
+        int maxSteps = 4 * countFreeTiles(tempMap); //Het aantal vrije plaatsen
 
         while (stepCount <= maxSteps) {
             String state = row + "," + col + "," + dirIndex;
 
             if (visitedStates.contains(state)) {
-                int firstOccurrence = visitedStates.indexOf(state);
-                List<String> loopSequence = visitedStates.subList(firstOccurrence, visitedStates.size());
-
-                // Controleer of de loop hetzelfde patroon herhaalt
-                if (loopSequence.equals(visitedStates.subList(firstOccurrence, visitedStates.size()))) {
-                    return true; // Cyclus gedetecteerd
-                }
+                return true;
             }
 
             visitedStates.add(state);
@@ -70,18 +64,19 @@ public class GuardLoop {
             int nextRow = row + directions[dirIndex][0];
             int nextCol = col + directions[dirIndex][1];
 
-            if (nextRow < 0 || nextRow >= tempMap.length || nextCol < 0 || nextCol >= tempMap[0].length() ||
-                    tempMap[nextRow].charAt(nextCol) == '#') {
-                // Draai naar rechts als er een muur of obstructie is
+            if (nextRow < 0 || nextRow >= tempMap.length || nextCol < 0 || nextCol >= tempMap[0].length()) {
+                return false;
+            }
+
+            if (tempMap[nextRow].charAt(nextCol) == '#') {
                 dirIndex = (dirIndex + 1) % 4;
             } else {
-                // Beweeg naar de volgende positie
                 row = nextRow;
                 col = nextCol;
             }
         }
 
-        return false; // Geen cyclus gevonden binnen limiet aantal stappen
+        return false;
     }
 
     public static int countFreeTiles(String[] map) {
