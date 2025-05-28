@@ -159,8 +159,4 @@ public class PuzzleInput {
     public int getDirIndex() {
         return dirIndex;
     }
-
-    public String getMapInput() {
-        return mapInput;
-    }
 }
