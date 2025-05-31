@@ -859,7 +859,7 @@ public class PuzzleInput {
             215952960: 565 796 6 972 80""";
 
     private final String[] equationsLines = equationsInput.strip().split("\n");
-    private final Map<Long, List<Integer>> equationsMap = new HashMap<>();
+    private final Map<Long, List<Long>> equationsMap = new HashMap<>();
 
     public PuzzleInput() {
         for (String line : this.equationsLines) {
@@ -867,9 +867,9 @@ public class PuzzleInput {
             Long key = Long.parseLong(parts[0].trim());
             String[] values = parts[1].trim().split(" ");
 
-            List<Integer> equationNumbers = new ArrayList<>();
+            List<Long> equationNumbers = new ArrayList<>();
             for (String value : values) {
-                equationNumbers.add(Integer.parseInt(value.trim()));
+                equationNumbers.add(Long.valueOf(value.trim()));
             }
 
             this.equationsMap.put(key, equationNumbers);
@@ -880,7 +880,7 @@ public class PuzzleInput {
             return equationsLines;
     }
 
-    public Map<Long, List<Integer>> getEquationsMap() {
+    public Map<Long, List<Long>> getEquationsMap() {
             return equationsMap;
     }
 }

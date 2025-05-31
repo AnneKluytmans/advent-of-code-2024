@@ -1,55 +1,80 @@
 package Day7BridgeRepair;
 
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class EquationOperatorChecker {
     public static void main(String[] args) {
-        Long totalSum = 0L;
+        Long totalSumPartOne = 0L;
+        Long totalSumPartTwo = 0L;
 
         PuzzleInput puzzleInput = new PuzzleInput();
-        Map<Long, List<Integer>> equations = puzzleInput.getEquationsMap();
+        Map<Long, List<Long>> equations = puzzleInput.getEquationsMap();
 
-        for (Map.Entry<Long, List<Integer>> entry : equations.entrySet()) {
+        for (Map.Entry<Long, List<Long>> entry : equations.entrySet()) {
             Long targetNumber = entry.getKey();
-            List<Integer> numbers = entry.getValue();
+            List<Long> numbers = entry.getValue();
 
-            if (correctEquation(targetNumber, numbers)) {
-                totalSum += targetNumber;
+            if (isCorrectEquation(targetNumber, numbers, 1, numbers.getFirst())) {
+                totalSumPartOne += targetNumber;
+            }
+
+            if (isCorrectEquationWithConcat(targetNumber, numbers, 1, numbers.getFirst(), numbers.getFirst(), '-')) {
+                totalSumPartTwo += targetNumber;
             }
         }
 
-        System.out.println("Total sum of the target numbers from the correct equations: " + totalSum);
+        System.out.println("Total sum of the target numbers from the correct equations: " + totalSumPartOne);
+        System.out.println("Total sum of the target numbers from the correct equations with the concatenation: " + totalSumPartTwo);
     }
 
-    public static boolean correctEquation(Long targetNumber, List<Integer> numbers) {
-        int amountOfOperators = numbers.size() - 1;
-        int totalCombinations = (int) Math.pow(2, amountOfOperators); // Aantal mogelijke combinaties van + en * tussen de getallen = 2^aantal_operators
+    public static boolean isCorrectEquation(Long targetNumber, List<Long> numbers, int index, Long currentTotal) {
+        if (index == numbers.size()) {
+            return currentTotal.equals(targetNumber);
+        }
 
-        // Doorloop alle mogelijke combinaties van + en *
-        for (int combination = 0; combination < totalCombinations; combination++) {
-            Long solution = Long.valueOf(numbers.getFirst());
+        Long nextNumber = numbers.get(index);
 
-            for (int i = 0; i < amountOfOperators; i++) {
-                int nextNumber = numbers.get(i + 1);
+        if (isCorrectEquation(targetNumber, numbers, index + 1, currentTotal + nextNumber)) {
+            return true;
+        }
 
-                // Bepaal welke operator je moet gebruiken op positie i:
-                // (combination / 2^i) % 2 geeft 0 of 1 → 0 betekent: gebruik "+" en 1 betekent: gebruik "*"
-                int operator = (combination / (int)Math.pow(2, i)) % 2;
+        if (isCorrectEquation(targetNumber, numbers, index + 1, currentTotal * nextNumber)) {
+            return true;
+        }
 
-                switch (operator) {
-                    case 0:
-                        solution += nextNumber;
-                        break;
-                    case 1:
-                        solution *= nextNumber;
-                        break;
-                }
+        return false;
+    }
+
+    public static boolean isCorrectEquationWithConcat(Long targetNumber, List<Long> numbers, int index, Long currentTotal, Long previousNumber, char previousOperator) {
+        if (index == numbers.size()) {
+            return currentTotal.equals(targetNumber);
+        }
+
+        Long nextNumber = numbers.get(index);
+
+        if (isCorrectEquationWithConcat(targetNumber, numbers, index + 1, currentTotal + nextNumber, nextNumber, '+')) {
+            return true;
+        }
+
+        if (isCorrectEquationWithConcat(targetNumber, numbers, index + 1, currentTotal * nextNumber, nextNumber, '*')) {
+            return true;
+        }
+
+        long concatNumber = Long.parseLong(String.valueOf(previousNumber) + nextNumber);
+        long adjustedTotal;
+        if (previousOperator == '+') {
+            adjustedTotal = currentTotal - previousNumber + concatNumber;
+        } else if (previousOperator == '*') {
+            if (previousNumber == 0) {
+                return false;
             }
+            adjustedTotal = (currentTotal / previousNumber) * concatNumber;
+        } else {
+            adjustedTotal = concatNumber;
+        }
 
-            if (solution.equals(targetNumber)) {
-                return true;
-            }
+        if (isCorrectEquationWithConcat(targetNumber, numbers, index + 1, adjustedTotal, concatNumber, previousOperator)) {
+            return true;
         }
 
         return false;
