@@ -4,22 +4,32 @@ import java.util.*;
 
 public class EquationOperatorChecker {
     public static void main(String[] args) {
-        Long totalSumPartOne = 0L;
-        Long totalSumPartTwo = 0L;
+        long totalSumPartOne = 0;
+        long totalSumPartTwo;
 
         PuzzleInput puzzleInput = new PuzzleInput();
         Map<Long, List<Long>> equations = puzzleInput.getEquationsMap();
+        Map<Long, List<Long>> remainingEquations = new HashMap<>();
 
         for (Map.Entry<Long, List<Long>> entry : equations.entrySet()) {
-            Long targetNumber = entry.getKey();
+            Long target = entry.getKey();
             List<Long> numbers = entry.getValue();
 
-            if (isCorrectEquation(targetNumber, numbers, 1, numbers.getFirst())) {
-                totalSumPartOne += targetNumber;
+            if (isValidEquation(target, numbers, List.of('+', '*'))) {
+                totalSumPartOne += target;
+            } else {
+                remainingEquations.put(target, numbers);
             }
+        }
 
-            if (isCorrectEquationWithConcat(targetNumber, numbers, 1, numbers.getFirst(), numbers.getFirst(), '-')) {
-                totalSumPartTwo += targetNumber;
+        totalSumPartTwo = totalSumPartOne;
+
+        for (Map.Entry<Long, List<Long>> entry : remainingEquations.entrySet()) {
+            Long target = entry.getKey();
+            List<Long> numbers = entry.getValue();
+
+            if (isValidEquation(target, numbers, List.of('+', '*', '|'))) {
+                totalSumPartTwo += target;
             }
         }
 
@@ -27,56 +37,54 @@ public class EquationOperatorChecker {
         System.out.println("Total sum of the target numbers from the correct equations with the concatenation: " + totalSumPartTwo);
     }
 
-    public static boolean isCorrectEquation(Long targetNumber, List<Long> numbers, int index, Long currentTotal) {
-        if (index == numbers.size()) {
-            return currentTotal.equals(targetNumber);
-        }
+    public static boolean isValidEquation(Long target, List<Long> numbers, List<Character> operators) {
+        int operatorPositions = numbers.size() - 1;
+        List<List<Character>> operatorCombinations = generateOperatorCombos(operatorPositions, operators);
 
-        Long nextNumber = numbers.get(index);
-
-        if (isCorrectEquation(targetNumber, numbers, index + 1, currentTotal + nextNumber)) {
-            return true;
-        }
-
-        if (isCorrectEquation(targetNumber, numbers, index + 1, currentTotal * nextNumber)) {
-            return true;
+        for (List<Character> combination : operatorCombinations) {
+            if (evaluateOperators(numbers, combination) == target) {
+                return true;
+            }
         }
 
         return false;
     }
 
-    public static boolean isCorrectEquationWithConcat(Long targetNumber, List<Long> numbers, int index, Long currentTotal, Long previousNumber, char previousOperator) {
-        if (index == numbers.size()) {
-            return currentTotal.equals(targetNumber);
-        }
+    public static long evaluateOperators(List<Long> numbers, List<Character> operators) {
+        long result = numbers.getFirst();
 
-        Long nextNumber = numbers.get(index);
+        for (int i = 0; i < operators.size(); i++) {
+            long next = numbers.get(i + 1);
+            char operator = operators.get(i);
 
-        if (isCorrectEquationWithConcat(targetNumber, numbers, index + 1, currentTotal + nextNumber, nextNumber, '+')) {
-            return true;
-        }
-
-        if (isCorrectEquationWithConcat(targetNumber, numbers, index + 1, currentTotal * nextNumber, nextNumber, '*')) {
-            return true;
-        }
-
-        long concatNumber = Long.parseLong(String.valueOf(previousNumber) + nextNumber);
-        long adjustedTotal;
-        if (previousOperator == '+') {
-            adjustedTotal = currentTotal - previousNumber + concatNumber;
-        } else if (previousOperator == '*') {
-            if (previousNumber == 0) {
-                return false;
+            if (operator == '+') {
+                result += next;
+            } else if (operator == '*') {
+                result *= next;
+            } else if (operator == '|') {
+                result = Long.parseLong(String.valueOf(result) + next);
             }
-            adjustedTotal = (currentTotal / previousNumber) * concatNumber;
-        } else {
-            adjustedTotal = concatNumber;
         }
 
-        if (isCorrectEquationWithConcat(targetNumber, numbers, index + 1, adjustedTotal, concatNumber, previousOperator)) {
-            return true;
+        return result;
+    }
+
+    public static List<List<Character>> generateOperatorCombos(int positions, List<Character> operators) {
+        List<List<Character>> operatorCombinations = new ArrayList<>();
+        generateOperatorCombosRecursive(positions, operators, new ArrayList<>(), operatorCombinations);
+        return operatorCombinations;
+    }
+
+    public static void generateOperatorCombosRecursive(int positions, List<Character> operators, List<Character> current, List<List<Character>> operatorCombinations) {
+        if (current.size() == positions) {
+            operatorCombinations.add(new ArrayList<>(current));
+            return;
         }
 
-        return false;
+        for (char operator : operators) {
+            current.add(operator);
+            generateOperatorCombosRecursive(positions, operators, current, operatorCombinations);
+            current.removeLast();
+        }
     }
 }
