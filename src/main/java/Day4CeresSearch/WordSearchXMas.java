@@ -3,7 +3,7 @@ package Day4CeresSearch;
 public class WordSearchXMas {
     public static void main(String[] args) {
         PuzzleInput puzzleInput = new PuzzleInput();
-        char[][] puzzleBoard = puzzleInput.createPuzzleBoard();
+        char[][] puzzleBoard = puzzleInput.getPuzzleBoard();
 
         int count = countXMasOccurrences(puzzleBoard);
         System.out.println("Total occurrences of X-MAS: " + count);

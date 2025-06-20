@@ -145,9 +145,13 @@ public class PuzzleInput {
             XAMAAMMSAMMSMSXSASXMMMMMMSMMAMXSSMSSXSAMXXMMAASXMMMAMSXAAMAMAMMSAMMXSAMASXMMSSMASMASXMMSMAMMXMASASAXMAMSAMASAXMSSSMSSSMMAAMASAAASAAAAAAAXMAS
             XXMAMMXSMMXAXXMSMSAMXXXXXXXMXSXXAXMMXSASXMXMSSMXAASXSAMXSMSSXMASMMSAMXMXXXSXSMSSXMMSMXSXMASMXMSSSMASMMMSASXMMSAMXMXXMMASMSSXSXSASMSMSMSMSSMS""";
 
+    private final char[][] puzzleBoard = CreatePuzzleBoard.createPuzzleBoard(puzzleInput);
+
     public String getPuzzleInput() {
         return puzzleInput;
     }
 
-    public char[][] puzzleBoard = CreatePuzzleBoard.createPuzzleBoard(puzzleInput);
+    public char[][] getPuzzleBoard() {
+        return puzzleBoard;
+    }
 }

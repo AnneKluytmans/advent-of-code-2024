@@ -55,11 +55,15 @@ public class PuzzleInput {
             ..................................................
             .................x....c........................E..""";
 
+    private final char[][] antennaMap = CreatePuzzleBoard.createPuzzleBoard(puzzleInput);
+
     public String getPuzzleInput() {
         return puzzleInput;
     }
 
-    public char[][] antennaMap = CreatePuzzleBoard.createPuzzleBoard(puzzleInput);
+    public char[][] getAntennaMap() {
+        return antennaMap;
+    }
 
 }
 
