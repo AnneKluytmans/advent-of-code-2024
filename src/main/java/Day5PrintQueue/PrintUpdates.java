@@ -1,4 +1,4 @@
-package Day5PrintQueue.Day5Puzzle;
+package Day5PrintQueue;
 
 import java.util.*;
 

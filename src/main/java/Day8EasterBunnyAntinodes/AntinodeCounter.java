@@ -1,4 +1,4 @@
-package Day8EasterBunny;
+package Day8EasterBunnyAntinodes;
 
 import java.util.ArrayList;
 import java.util.HashSet;
