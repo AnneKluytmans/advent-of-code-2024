@@ -5,7 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class AntinodeLocationCounter {
+public class AntinodeCounterPart1 {
     public static void main(String[] args) {
         PuzzleInput puzzleInput = new PuzzleInput();
         char[][] antennaMap = puzzleInput.getAntennaMap();
