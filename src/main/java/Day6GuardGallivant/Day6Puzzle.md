@@ -184,3 +184,8 @@ You need to get the guard stuck in a loop by adding a single new obstruction. Ho
 Your puzzle answer was 1770.
 
 Both parts of this puzzle are complete! They provide two gold stars: **
+
+At this point, you should return to your Advent calendar and try another puzzle.
+
+If you still want to see it, you can get your puzzle input here: https://adventofcode.com/2024/day/6/input
+

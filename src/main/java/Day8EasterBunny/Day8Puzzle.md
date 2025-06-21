@@ -75,8 +75,6 @@ Calculate the impact of the signal. How many unique locations within the bounds 
 
 Your puzzle answer was 222.
 
-The first half of this puzzle is complete! It provides one gold star: *
-
 --- Part Two ---
 Watching over your shoulder as you work, one of The Historians asks if you took the effects of resonant harmonics into your calculations.
 
@@ -114,5 +112,10 @@ The original example now has 34 antinodes, including the antinodes that appear o
 ...#......##
 Calculate the impact of the signal using this updated model. How many unique locations within the bounds of the map contain an antinode?
 
-Answer: 
- 
+Your puzzle answer was 884.
+
+Both parts of this puzzle are complete! They provide two gold stars: **
+
+At this point, you should return to your Advent calendar and try another puzzle.
+
+If you still want to see it, you can get your puzzle input here: https://adventofcode.com/2024/day/8/input
