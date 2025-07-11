@@ -5,18 +5,17 @@ import java.util.List;
 import java.util.Objects;
 
 public class FilesystemChecksumCalculator {
+
     public static void main(String[] args) {
         PuzzleInput puzzleInput = new PuzzleInput();
         List<Integer> digits = parseToDigits(puzzleInput.getPuzzleInput());
 
-        List<Integer> disk = createDiskLayout(digits);
-        List<Integer> disk1 = compactDiskByShiftingFragments(disk);
-        List<Integer> disk2 = compactDiskByShiftingWholeFiles(disk);
+        List<Integer> initialDisk = createDiskLayout(digits);
+        long checksumPart1 = calculateChecksum(compactDiskByShiftingFragments(initialDisk));
+        long checksumPart2 = calculateChecksum(compactDiskByShiftingWholeFiles(initialDisk));
 
-        long checksum1 = calculateChecksum(disk1);
-        long checksum2 = calculateChecksum(disk2);
-        System.out.println("Filesystem checksum part 1: " + checksum1);
-        System.out.println("Filesystem checksum part 2: " + checksum2);
+        System.out.println("Filesystem checksum part 1: " + checksumPart1);
+        System.out.println("Filesystem checksum part 2: " + checksumPart2);
     }
 
     public static long calculateChecksum(List<Integer> disk) {
@@ -36,94 +35,51 @@ public class FilesystemChecksumCalculator {
         int fileId = 0;
 
         for (int i = 0; i < digitBlocks.size(); i++) {
-            if (i % 2 == 0) {
-                for (int j = 0; j < digitBlocks.get(i); j++) {
-                    disk.add(fileId);
-                }
-                fileId++;
-            } else {
-                for (int j = 0; j < digitBlocks.get(i); j++) {
-                    disk.add(null);
-                }
+            for (int j = 0; j < digitBlocks.get(i); j++) {
+                disk.add(i % 2 == 0 ? fileId : null);
             }
+            if (i % 2 == 0) fileId++;
         }
         return disk;
     }
 
-    public static List<Integer> compactDiskByShiftingFragments(List<Integer> disk) {
-        List<Integer> compactDisk = new ArrayList<>(disk);
+    public static List<Integer> compactDiskByShiftingFragments(List<Integer> originalDisk) {
+        List<Integer> disk = new ArrayList<>(originalDisk);
 
         while (true) {
-            int firstFreeSpace = -1;
-            for (int i = 0; i < disk.size(); i++) {
-                if (compactDisk.get(i) == null) {
-                    firstFreeSpace = i;
-                    break;
-                }
-            }
+            int firstFreeSpace = getIndexOfFirstFreeSpace(disk);
             if (firstFreeSpace == -1) break;
 
-            int lastDigit = -1;
-            for (int i = disk.size() -1; i > firstFreeSpace; i--) {
-                if (compactDisk.get(i) != null) {
-                    lastDigit = i;
-                    break;
-                }
-            }
-            if (lastDigit == -1) break;
+            int lastFileFragment = getIndexOfLastFileFragment(disk, firstFreeSpace);
+            if (lastFileFragment == -1) break;
 
-            compactDisk.set(firstFreeSpace, compactDisk.get(lastDigit));
-            compactDisk.set(lastDigit, null);
+            disk.set(firstFreeSpace, disk.get(lastFileFragment));
+            disk.set(lastFileFragment, null);
         }
 
-        return compactDisk;
+        return disk;
     }
 
-    public static List<Integer> compactDiskByShiftingWholeFiles(List<Integer> disk) {
-        List<Integer> compactDisk = new ArrayList<>(disk);
-        int highestId = 0;
+    public static List<Integer> compactDiskByShiftingWholeFiles(List<Integer> initialDisk) {
+        List<Integer> disk = new ArrayList<>(initialDisk);
+        int highestFileId = getHighestFileId(initialDisk);
 
-        for (int i = compactDisk.size() - 1; i > 0; i--) {
-            if (compactDisk.get(i) != null) {
-                highestId = compactDisk.get(i);
-                break;
-            }
-        }
-
-        for (int fileId = highestId; fileId > 0; fileId--) {
-            int fileStart = compactDisk.indexOf(fileId);
-            int fileEnd = fileStart;
-
-            for (int i = fileStart; i < compactDisk.size(); i++) {
-                if (!Objects.equals(compactDisk.get(i), fileId)) {
-                    fileEnd = i - 1;
-                    break;
-                }
-                fileEnd = i;
-            }
+        for (int fileId = highestFileId; fileId > 0; fileId--) {
+            int fileStart = disk.indexOf(fileId);
+            int fileEnd = getIndexOfFileEnd(disk, fileId);
+            if (fileEnd == -1) break;
 
             int fileLength = fileEnd - fileStart + 1;
 
             for (int i = 0; i <= fileStart; i++) {
-                boolean fits = true;
-                for (int j = 0; j < fileLength; j++) {
-                    if (compactDisk.get(i + j) != null) {
-                        fits = false;
-                        break;
-                    }
-                }
-
-                if (fits) {
-                    for (int j = 0; j < fileLength; j++) {
-                        compactDisk.set(i + j, fileId);
-                        compactDisk.set(fileStart + j, null);
-                    }
+                if (doesFileFit(disk, fileLength, i)) {
+                    moveFile(disk, fileStart, fileLength, fileId, i);
                     break;
                 }
             }
         }
 
-        return compactDisk;
+        return disk;
     }
 
     private static List<Integer> parseToDigits(String input) {
@@ -135,4 +91,43 @@ public class FilesystemChecksumCalculator {
         return digits;
     }
 
+    private static int getIndexOfFirstFreeSpace(List<Integer> disk) {
+        for (int i = 0; i < disk.size(); i++) {
+            if (disk.get(i) == null) return i;
+        }
+        return -1;
+    }
+
+    private static int getIndexOfLastFileFragment(List<Integer> disk, int minIndex) {
+        for (int i = disk.size() -1; i > minIndex; i--) {
+            if (disk.get(i) != null) return i;
+        }
+        return -1;
+    }
+
+    private static int getHighestFileId(List<Integer> disk) {
+        int indexLastFileFragment = getIndexOfLastFileFragment(disk, 0);
+        return indexLastFileFragment == -1 ? -1 : disk.get(indexLastFileFragment);
+    }
+
+    private static int getIndexOfFileEnd(List<Integer> disk, int fileId) {
+        for (int i = disk.size() -1; i > 0; i--) {
+            if (Objects.equals(disk.get(i), fileId)) return i;
+        }
+        return -1;
+    }
+
+    private static boolean doesFileFit(List<Integer> disk, int fileLength, int start) {
+        for (int i = 0; i < fileLength; i++) {
+            if (disk.get(start + i) != null) return false;
+        }
+        return true;
+    }
+
+    private static void moveFile(List<Integer> disk, int fromIndex, int fileLength, int fileId, int toIndex) {
+        for (int i = 0; i < fileLength; i++) {
+            disk.set(toIndex + i, fileId);
+            disk.set(fromIndex + i, null);
+        }
+    }
 }
