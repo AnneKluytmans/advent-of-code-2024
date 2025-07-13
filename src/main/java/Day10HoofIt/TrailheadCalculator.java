@@ -1,8 +1,6 @@
 package Day10HoofIt;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 public class TrailheadCalculator {
@@ -11,35 +9,35 @@ public class TrailheadCalculator {
         int [][] topographicMap = puzzleInput.getTopographicMap();
 
         Trailhead trailhead = calculateTrailheadScores(topographicMap);
-
-        System.out.println("Total trailhead score: " + trailhead.getScore());
-        System.out.println("Total trailhead rating: " + trailhead.getRating());
+        System.out.println("Total trailhead score: " + trailhead.score);
+        System.out.println("Total trailhead rating: " + trailhead.rating);
     }
 
     public record Point(int row, int col) {}
+    public record Trailhead(int score, int rating) {}
 
     public static Trailhead calculateTrailheadScores(int[][] map) {
-        Trailhead trailhead = new Trailhead(0, 0);
-        Set<Point> uniqueEndpoints = new HashSet<>();
-        List<Point> hikingTrails = new ArrayList<>();
+        int totalScore = 0;
+        int totalRating = 0;
 
         for (int y = 0; y < map.length; y++) {
             for (int x = 0; x < map[y].length; x++) {
                 if (map[y][x] == 0) {
-                    findUniqueEndpoints(map, y, x, 0, uniqueEndpoints, hikingTrails);
+                    Set<Point> endpoints = new HashSet<>();
+                    RatingCounter counter = new RatingCounter();
 
-                    trailhead.setScore(trailhead.getScore() + uniqueEndpoints.size());
-                    trailhead.setRating(trailhead.getRating() + hikingTrails.size());
+                    calculateScoreAndRating(map, y, x, 0, endpoints, counter);
 
-                    uniqueEndpoints.clear();
-                    hikingTrails.clear();
+                    totalScore += endpoints.size();
+                    totalRating += counter.getCount();
                 }
             }
         }
-        return trailhead;
+
+        return new Trailhead(totalScore, totalRating);
     }
 
-    public static void findUniqueEndpoints(int[][] map, int row, int col, int currentValue, Set<Point> endpoints, List<Point> hikingTrails) {
+    public static void calculateScoreAndRating(int[][] map, int row, int col, int currentValue, Set<Point> endpoints, RatingCounter counter) {
         int[] dy = {-1, 0, 1, 0};
         int[] dx = {0, 1, 0, -1};
 
@@ -47,7 +45,7 @@ public class TrailheadCalculator {
 
         if (currentValue == 9) {
             endpoints.add(new Point(row, col));
-            hikingTrails.add(new Point(row, col));
+            counter.increment();
             return;
         }
 
@@ -55,7 +53,7 @@ public class TrailheadCalculator {
             int newRow = row + dy[d];
             int newCol = col + dx[d];
             if (newRow >= 0 && newRow < map.length && newCol >= 0 && newCol < map[0].length) {
-                findUniqueEndpoints(map, newRow, newCol, currentValue + 1, endpoints, hikingTrails);
+                calculateScoreAndRating(map, newRow, newCol, currentValue + 1, endpoints, counter);
             }
         }
     }
