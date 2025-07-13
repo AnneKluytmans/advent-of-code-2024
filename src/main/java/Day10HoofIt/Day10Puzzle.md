@@ -116,7 +116,10 @@ Considering its trailheads in reading order, they have ratings of 20, 24, 10, 4,
 
 You're not sure how, but the reindeer seems to have crafted some tiny flags out of toothpicks and bits of paper and is using them to mark trailheads on your topographic map. What is the sum of the ratings of all trailheads?
 
-Answer:
+Your puzzle answer was 875.
 
+Both parts of this puzzle are complete! They provide two gold stars: **
 
-Although it hasn't changed, you can still get your puzzle input.
+At this point, you should return to your Advent calendar and try another puzzle.
+
+If you still want to see it, you can get your puzzle input here: https://adventofcode.com/2024/day/10/input
