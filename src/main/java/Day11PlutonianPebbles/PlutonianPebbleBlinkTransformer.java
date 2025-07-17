@@ -14,6 +14,8 @@ public class PlutonianPebbleBlinkTransformer {
     }
 
 
+    public record LongHalves(long left, long right) {}
+
     public static List<Long> transformPebbles(List<Long> pebbles, int numberOfBlinks) {
         List<Long> result = new ArrayList<>();
         int blinkCount = 0;
@@ -23,17 +25,13 @@ public class PlutonianPebbleBlinkTransformer {
 
             for (long pebble : pebbles) {
                 int digitCount = countDigits(pebble);
+
                 if (pebble == 0) {
                     result.add(1L);
                 } else if (digitCount % 2 == 0) {
-                    int mid = digitCount / 2;
-
-                    String digits = String.valueOf(Math.abs(pebble));
-                    String leftDigits = digits.substring(0, mid).replaceFirst("^0+(?!$)", "");
-                    String rightDigits = digits.substring(mid).replaceFirst("^0+(?!$)", "");
-
-                    result.add(Long.parseLong(leftDigits));
-                    result.add(Long.parseLong(rightDigits));
+                    LongHalves halves = splitLong(pebble, digitCount);
+                    result.add(halves.left);
+                    result.add(halves.right);
                 } else {
                     result.add(pebble * 2024);
                 }
@@ -64,5 +62,15 @@ public class PlutonianPebbleBlinkTransformer {
             count++;
         }
         return count;
+    }
+
+    private static LongHalves splitLong(long number, int digitCount) {
+        int mid = digitCount / 2;
+
+        String digits = String.valueOf(Math.abs(number));
+        String leftDigits = digits.substring(0, mid).replaceFirst("^0+(?!$)", "");
+        String rightDigits = digits.substring(mid).replaceFirst("^0+(?!$)", "");
+
+        return new LongHalves(Long.parseLong(leftDigits), Long.parseLong(rightDigits));
     }
 }
