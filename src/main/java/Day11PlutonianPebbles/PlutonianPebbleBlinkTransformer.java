@@ -9,7 +9,7 @@ public class PlutonianPebbleBlinkTransformer {
         List<Long> pebbles = getPebbles(puzzleInput);
 
         int numberOfBlinks = 25;
-        int pebbleCount = transformPebbles(pebbles, numberOfBlinks).size();
+        long pebbleCount = transformPebbles(pebbles, numberOfBlinks).size();
         System.out.println("Amount of pebbles after " + numberOfBlinks + " blinks: " + pebbleCount);
     }
 
@@ -25,7 +25,6 @@ public class PlutonianPebbleBlinkTransformer {
 
             for (long pebble : pebbles) {
                 int digitCount = countDigits(pebble);
-
                 if (pebble == 0) {
                     result.add(1L);
                 } else if (digitCount % 2 == 0) {
@@ -56,21 +55,18 @@ public class PlutonianPebbleBlinkTransformer {
     }
 
     private static int countDigits(long number) {
-        int count = 0;
-        while (number > 0) {
-            number /= 10;
-            count++;
-        }
-        return count;
+        if (number == 0) return 1;
+        return (int) Math.log10(Math.abs(number)) + 1;
     }
 
     private static LongHalves splitLong(long number, int digitCount) {
+        number = Math.abs(number);
         int mid = digitCount / 2;
 
-        String digits = String.valueOf(Math.abs(number));
-        String leftDigits = digits.substring(0, mid).replaceFirst("^0+(?!$)", "");
-        String rightDigits = digits.substring(mid).replaceFirst("^0+(?!$)", "");
+        long divider = (long) Math.pow(10, digitCount - mid);
+        long left = number / divider;
+        long right = number % divider;
 
-        return new LongHalves(Long.parseLong(leftDigits), Long.parseLong(rightDigits));
+        return new LongHalves(left, right);
     }
 }
