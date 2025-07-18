@@ -1,54 +1,84 @@
 package Day11PlutonianPebbles;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class PlutonianPebbleBlinkTransformer {
+
+    private static final Map<Long, List<Long>> pebbleCache = new HashMap<>();
+
     public static void main(String[] args) {
         String puzzleInput = "0 44 175060 3442 593 54398 9 8101095";
         List<Long> pebbles = getPebbles(puzzleInput);
 
-        int numberOfBlinks = 25;
-        long pebbleCount = transformPebbles(pebbles, numberOfBlinks).size();
+        int numberOfBlinks = 75;
+        long pebbleCount = countPebblesAfterBlinks(pebbles, numberOfBlinks);
+
         System.out.println("Amount of pebbles after " + numberOfBlinks + " blinks: " + pebbleCount);
     }
 
+    public static long countPebblesAfterBlinks(List<Long> pebbles, int numberOfBlinks) {
+        long totalPebbles = 0L;
 
-    public record LongHalves(long left, long right) {}
-
-    public static List<Long> transformPebbles(List<Long> pebbles, int numberOfBlinks) {
-        List<Long> result = new ArrayList<>();
-        int blinkCount = 0;
-
-        while (blinkCount < numberOfBlinks) {
-            result.clear();
-
-            for (long pebble : pebbles) {
-                int digitCount = countDigits(pebble);
-                if (pebble == 0) {
-                    result.add(1L);
-                } else if (digitCount % 2 == 0) {
-                    LongHalves halves = splitLong(pebble, digitCount);
-                    result.add(halves.left);
-                    result.add(halves.right);
-                } else {
-                    result.add(pebble * 2024);
-                }
+        Map<Long, Long> counts = new HashMap<>();
+        for (long pebble : pebbles) {
+            Long currCount = counts.get(pebble);
+            if (currCount == null) {
+                counts.put(pebble, 1L);
+            } else {
+                counts.put(pebble, currCount + 1);
             }
-
-            blinkCount++;
-            pebbles = new ArrayList<>(result);
         }
 
-        return pebbles;
+        for (int i = 0; i < numberOfBlinks; i++) {
+            Map<Long, Long> nextCounts = new HashMap<>();
+
+            for (Map.Entry<Long, Long> entry : counts.entrySet()) {
+                long pebble = entry.getKey();
+                long count = entry.getValue();
+
+                List<Long> transformed = getTransformedPebbles(pebble);
+
+                for (Long newPebble : transformed) {
+                    nextCounts.merge(newPebble, count, Long::sum);
+                }
+            }
+            counts = nextCounts;
+        }
+
+        for (Long count : counts.values()) {
+            totalPebbles += count;
+        }
+        return totalPebbles;
     }
+
+    public static List<Long> getTransformedPebbles(long pebble) {
+        if (pebbleCache.containsKey(pebble)) {
+            return pebbleCache.get(pebble);
+        }
+        List<Long> transformedPebbles = new ArrayList<>();
+        int digitCount = countDigits(pebble);
+
+        if (pebble == 0) {
+            transformedPebbles.add(1L);
+        } else if (digitCount % 2 == 0) {
+            LongHalves halves = splitLong(pebble, digitCount);
+            transformedPebbles.add(halves.left);
+            transformedPebbles.add(halves.right);
+        } else  {
+            transformedPebbles.add(pebble * 2024);
+        }
+
+        pebbleCache.put(pebble, transformedPebbles);
+        return transformedPebbles;
+    }
+
 
     private static List<Long> getPebbles(String puzzleInput) {
         List<Long> pebbles = new ArrayList<>();
-        List<String> puzzleInputParts = List.of(puzzleInput.split(" "));
+        String[] parts = puzzleInput.split(" ");
 
-        for (String puzzleInputPart : puzzleInputParts) {
-            pebbles.add(Long.parseLong(puzzleInputPart));
+        for (String part : parts) {
+            pebbles.add(Long.parseLong(part));
         }
 
         return pebbles;
@@ -69,4 +99,6 @@ public class PlutonianPebbleBlinkTransformer {
 
         return new LongHalves(left, right);
     }
+
+    public record LongHalves(long left, long right) {}
 }
