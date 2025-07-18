@@ -60,8 +60,12 @@ The Historians sure are taking a long time. To be fair, the infinite corridors a
 
 How many stones would you have after blinking a total of 75 times?
 
-Answer:
+Your puzzle answer was 234430066982597.
 
+Both parts of this puzzle are complete! They provide two gold stars: **
 
-Although it hasn't changed, you can still get your puzzle input.
+At this point, you should return to your Advent calendar and try another puzzle.
+
+If you still want to see it, you can get your puzzle input here: https://adventofcode.com/2024/day/11/input 
+
 
