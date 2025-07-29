@@ -1,3 +1,3 @@
 package Day12GardenGroups;
 
-public record Point(int row, int col) {}
+public record Point(int col, int row) {}

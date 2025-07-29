@@ -44,7 +44,7 @@ public class GardenFencingPriceCalculator {
 
         for (int i = 0; i < puzzleBoard.length; i++) {
             for (int j = 0; j < puzzleBoard[0].length; j++) {
-                Point p = new Point(i, j);
+                Point p = new Point(j, i);
                 if (!visited.contains(p)) {
                     Region region = new Region();
                     Set<Edge> edges = new HashSet<>();
@@ -60,7 +60,7 @@ public class GardenFencingPriceCalculator {
     }
 
     public static void scanRegion(char[][] puzzleBoard, int row, int col, Set<Point> visited, Region region, char target, Set<Edge> edges) {
-        Point current = new Point(row, col);
+        Point current = new Point(col, row);
         if (visited.contains(current)) return;
 
         visited.add(current);
@@ -73,7 +73,7 @@ public class GardenFencingPriceCalculator {
             int newRow = row + dy[d];
             int newCol = col + dx[d];
 
-            Edge edge = new Edge(new Point(row, col), new Point(newRow, newCol));
+            Edge edge = new Edge(new Point(col, row), new Point(newCol, newRow));
             if (newRow >= 0 && newRow < puzzleBoard.length &&
                 newCol >= 0 && newCol < puzzleBoard[0].length) {
 

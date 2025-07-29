@@ -12,18 +12,18 @@ public record Edge(Point inside, Point outside) {
 
     public Edge nextInSameDirection() {
         if (isVertical()) {
-            return new Edge(new Point(inside.row() + 1, inside.col()), new Point(outside.row() + 1, outside.col()));
+            return new Edge(new Point(inside.col(), inside.row() + 1), new Point(outside.col(), outside.row() + 1));
         } else if (isHorizontal()) {
-            return new Edge(new Point(inside.row(), inside.col() + 1), new Point(outside.row(), outside.col() + 1));
+            return new Edge(new Point(inside.col() + 1, inside.row()), new Point(outside.col() + 1, outside.row()));
         }
         return null;
     }
 
     public Edge previousInSameDirection() {
         if (isVertical()) {
-            return new Edge(new Point(inside.row() - 1, inside.col()), new Point(outside.row() - 1, outside.col()));
+            return new Edge(new Point(inside.col(), inside.row() - 1), new Point(outside.col(), outside.row() - 1));
         } else if (isHorizontal()) {
-            return new Edge(new Point(inside.row(), inside.col() - 1), new Point(outside.row(), outside.col() - 1));
+            return new Edge(new Point(inside.col() - 1, inside.row()), new Point(outside.col() - 1, outside.row()));
         }
         return null;
     }
