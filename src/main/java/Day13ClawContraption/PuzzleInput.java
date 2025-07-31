@@ -1293,23 +1293,40 @@ Prize: X=2192, Y=2276
     }
 
     public List<ClawMachine> getClawMachines() {
-        return parseClawMachine();
+        return parseClawMachine(parseClawMachineBlocks());
     }
 
-    private List<ClawMachine> parseClawMachine() {
-        List<ClawMachine> result = new ArrayList<>();
+    private List<String[]> parseClawMachineBlocks() {
+        String[] lines = puzzleInput.split("\\R");
+        List<String[]> clawMachineBlocks = new ArrayList<>();
+        List<String> current = new ArrayList<>();
 
-        String[] clawMachines = puzzleInput.split("\\R{2,}");
+        for (String line : lines) {
+            line = line.strip();
+            if (line.isEmpty()) continue;
+
+            current.add(line);
+
+            if (current.size() == 3) {
+                clawMachineBlocks.add(current.toArray(new String[0]));
+                current.clear();
+            }
+        }
+
+        return clawMachineBlocks;
+    }
+
+    private List<ClawMachine> parseClawMachine(List<String[]> clawMachineBlocks) {
+        List<ClawMachine> clawMachines = new ArrayList<>();
 
         Pattern buttonPattern = Pattern.compile("X[+=](\\d+), Y[+=](\\d+)");
         Pattern prizePattern = Pattern.compile("X=(\\d+), Y=(\\d+)");
 
-        for (String machine : clawMachines) {
-            String[] lines = machine.split("/n");
+        for (String[] machine : clawMachineBlocks) {
 
-            Matcher buttonAMatcher = buttonPattern.matcher(lines[0]);
-            Matcher buttonBMatcher = buttonPattern.matcher(lines[1]);
-            Matcher prizeMatcher = prizePattern.matcher(lines[2]);
+            Matcher buttonAMatcher = buttonPattern.matcher(machine[0]);
+            Matcher buttonBMatcher = buttonPattern.matcher(machine[1]);
+            Matcher prizeMatcher = prizePattern.matcher(machine[2]);
 
             if (buttonAMatcher.find() && buttonBMatcher.find() && prizeMatcher.find()) {
 
@@ -1328,11 +1345,11 @@ Prize: X=2192, Y=2276
                         Integer.parseInt(prizeMatcher.group(2))
                 );
 
-                result.add(new ClawMachine(buttonA, buttonB, prizeLocation));
+                clawMachines.add(new ClawMachine(buttonA, buttonB, prizeLocation));
             }
         }
 
-        return result;
+        return clawMachines;
     }
 }
 
