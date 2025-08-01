@@ -7,55 +7,58 @@ public class ClawMachineSolver {
         PuzzleInput puzzleInput = new PuzzleInput();
         List<ClawMachine> clawMachines = puzzleInput.getClawMachines();
 
-        long minimumTokens = calculateMinimumTokens(clawMachines);
-        System.out.println("Minimal tokens to win all prizes: " + minimumTokens);
+        long totalTokens = calculateMinimumTokens(clawMachines, Mode.NORMAL);
+        long totalTokensExtended = calculateMinimumTokens(clawMachines, Mode.EXTENDED);
+        System.out.println("Minimal tokens to win all prizes in normal mode: " + totalTokens);
+        System.out.println("Minimal tokens to win all prizes in extended mode: " + totalTokensExtended);
     }
 
-    public static long calculateMinimumTokens(List<ClawMachine> clawMachines) {
-        long minimumTokens = 0;
-        for (ClawMachine clawMachine : clawMachines) {
-            Set<Integer> tokenCounts = new HashSet<>();
-            Point start = new Point(0, 0);
-            Map<Point, Integer> visited = new HashMap<>();
+    public static long calculateMinimumTokens(List<ClawMachine> clawMachines, Mode mode) {
+        long totalTokens = 0;
+        for (ClawMachine machine : clawMachines) {
+            Long tokens = calculateTokensForMachine(machine, mode);
 
-            exploreTokensToPrize(clawMachine, start, tokenCounts,0, 0, 0, visited);
-
-            if (!tokenCounts.isEmpty()) {
-                int minTokenCount = Collections.min(tokenCounts);
-                minimumTokens += minTokenCount;
+            if (tokens != null) {
+                totalTokens += tokens;
             }
         }
-        return minimumTokens;
+        return totalTokens;
     }
 
-    public static void exploreTokensToPrize(
-            ClawMachine clawMachine,
-            Point current,
-            Set<Integer> tokenCounts,
-            int aCounter,
-            int bCounter,
-            int tokenCount,
-            Map<Point, Integer> visited
-    ) {
-        if (aCounter > 100 || bCounter > 100 ||
-            current.x() > clawMachine.getPrizeLocation().x() ||
-            current.y() > clawMachine.getPrizeLocation().y()) {
-            return;
+    public static Long calculateTokensForMachine(ClawMachine machine, Mode mode) {
+        long ax = machine.getButtonA().dx();
+        long ay = machine.getButtonA().dy();
+        long bx = machine.getButtonB().dx();
+        long by = machine.getButtonB().dy();
+
+        long prizeX = machine.getPrizeLocation().x();
+        long prizeY = machine.getPrizeLocation().y();
+
+        if (mode == Mode.EXTENDED) {
+            prizeX += 10_000_000_000_000L;
+            prizeY += 10_000_000_000_000L;
         }
 
-        if (visited.containsKey(current) && visited.get(current) <= tokenCount) {
-            return;
+        // prize X = i * ax + j * bx
+        // prize Y = i * bx + j * by
+        long determinant = ax * by - ay * bx;
+
+        if (determinant == 0) {
+            return null;
         }
 
-        visited.put(current, tokenCount);
+        long iNum = prizeX * by - prizeY * bx;
+        long jNum = ax * prizeY - ay * prizeX;
 
-        if (current.equals(clawMachine.getPrizeLocation())) {
-            tokenCounts.add(tokenCount);
-            return;
-        }
+        if (iNum % determinant != 0 || jNum % determinant != 0) return null;
 
-        exploreTokensToPrize(clawMachine, clawMachine.clickA(current), tokenCounts, aCounter + 1, bCounter, tokenCount + 3, visited);
-        exploreTokensToPrize(clawMachine, clawMachine.clickB(current), tokenCounts, aCounter, bCounter + 1, tokenCount + 1, visited);
+        long i = iNum / determinant;
+        long j = jNum / determinant;
+
+        if (i < 0 || j < 0) return null;
+        if (mode == Mode.NORMAL && (i > 100 || j > 100)) return null;
+
+        return 3L * i + j;
     }
 
 }

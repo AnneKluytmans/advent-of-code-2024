@@ -1341,8 +1341,8 @@ Prize: X=2192, Y=2276
                 );
 
                 Point prizeLocation = new Point(
-                        Integer.parseInt(prizeMatcher.group(1)),
-                        Integer.parseInt(prizeMatcher.group(2))
+                        Long.parseLong(prizeMatcher.group(1)),
+                        Long.parseLong(prizeMatcher.group(2))
                 );
 
                 clawMachines.add(new ClawMachine(buttonA, buttonB, prizeLocation));
