@@ -40,7 +40,7 @@ public class ClawMachineSolver {
         }
 
         // prize X = i * ax + j * bx
-        // prize Y = i * bx + j * by
+        // prize Y = i * ay + j * by
         long determinant = ax * by - ay * bx;
 
         if (determinant == 0) {
