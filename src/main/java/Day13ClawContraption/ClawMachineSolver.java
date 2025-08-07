@@ -41,6 +41,7 @@ public class ClawMachineSolver {
 
         // prize X = i * ax + j * bx
         // prize Y = i * ay + j * by
+        // tokens = 3 * i + j
         long determinant = ax * by - ay * bx;
 
         if (determinant == 0) {
@@ -50,6 +51,7 @@ public class ClawMachineSolver {
         long iNum = prizeX * by - prizeY * bx;
         long jNum = ax * prizeY - ay * prizeX;
 
+        // Must be exactly divisible → i and j are integers
         if (iNum % determinant != 0 || jNum % determinant != 0) return null;
 
         long i = iNum / determinant;
