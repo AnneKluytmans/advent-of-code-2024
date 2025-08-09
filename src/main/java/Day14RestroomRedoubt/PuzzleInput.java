@@ -509,10 +509,6 @@ public class PuzzleInput {
             p=26,91 v=-80,-91
             """;
 
-    private static final Pattern PATTERN = Pattern.compile(
-      "p=(\\d+), (\\d+)\\s+v=(-?\\d+),(-?\\d+)"
-    );
-
 
     public String getPuzzleInput() {
         return puzzleInput;
@@ -530,6 +526,9 @@ public class PuzzleInput {
     }
 
     public Robot parseRobot(String line) {
+        Pattern PATTERN = Pattern.compile(
+                "p=(\\d+),(\\d+)\\s+v=(-?\\d+),(-?\\d+)"
+        );
         Matcher matcher = PATTERN.matcher(line.trim());
         if (!matcher.matches()) {
             throw new IllegalArgumentException("Invalid puzzle input");
@@ -539,7 +538,6 @@ public class PuzzleInput {
         int py = Integer.parseInt(matcher.group(2));
         int dx = Integer.parseInt(matcher.group(3));
         int dy = Integer.parseInt(matcher.group(4));
-
         return new Robot(new Point(px, py), new Velocity(dx, dy));
     }
 }

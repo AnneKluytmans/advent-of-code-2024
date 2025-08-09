@@ -4,8 +4,8 @@ public class Robot {
     private Point position;
     private Velocity velocity;
 
-    public Robot(Point startPosition, Velocity velocity) {
-        this.position = startPosition;
+    public Robot(Point position, Velocity velocity) {
+        this.position = position;
         this.velocity = velocity;
     }
 
