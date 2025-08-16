@@ -1,30 +1,28 @@
 package Day14RestroomRedoubt;
 
 public class Robot {
-    private Point position;
+    private Point start;
     private Velocity velocity;
 
-    public Robot(Point position, Velocity velocity) {
-        this.position = position;
+    public Robot(Point start, Velocity velocity) {
+        this.start = start;
         this.velocity = velocity;
     }
 
 
-    public Point getPosition() {
-        return position;
+    public Point getStart() {
+        return start;
     }
 
     public Velocity getVelocity() {
         return velocity;
     }
 
-
-    public void setPosition(Point position) {
-        this.position = position;
+    public void setStart(Point start) {
+        this.start = start;
     }
 
     public void setVelocity(Velocity velocity) {
         this.velocity = velocity;
     }
-
 }

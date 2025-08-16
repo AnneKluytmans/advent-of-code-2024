@@ -22,7 +22,7 @@ public class SafetyFactorExplorer {
         int q1 = 0, q2 = 0, q3 = 0, q4 = 0;
 
         for (Robot robot : robots) {
-            Point end = getEndPosition(robot, spaceSize, seconds);
+            Point end = RobotMover.moveRobot(robot, spaceSize, seconds);
             int x = end.x();
             int y = end.y();
 
@@ -42,19 +42,5 @@ public class SafetyFactorExplorer {
         }
 
         return (long) q1 * q2 * q3 * q4;
-    }
-
-    public static Point getEndPosition(Robot robot, Size spaceSize, int seconds) {
-        Point position = robot.getPosition();
-        Velocity velocity = robot.getVelocity();
-
-
-        int newX = mod(position.x() + velocity.dx() * seconds, spaceSize.width());
-        int newY = mod(position.y() + velocity.dy() * seconds, spaceSize.height());
-        return new Point(newX, newY);
-    }
-
-    public static int mod(int value, int max) {
-        return ((value % max) + max) % max;
     }
 }
