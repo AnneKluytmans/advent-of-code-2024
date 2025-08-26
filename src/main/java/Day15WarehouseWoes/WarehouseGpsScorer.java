@@ -10,7 +10,7 @@ public class WarehouseGpsScorer {
         List<Direction> directions = puzzleInput.getDirections();
 
         long GpsScore = calculateGpsScore(warehouseMap, directions);
-        System.out.println("The total sum of the robots GPS coördinates: " + GpsScore);
+        System.out.println("The total sum of the robots GPS coördinates is: " + GpsScore);
     }
 
     public static long calculateGpsScore(char[][] warehouseMap, List<Direction> directions) {
@@ -19,7 +19,7 @@ public class WarehouseGpsScorer {
 
         for (int y = 0; y < endPositions.length; y++) {
             for (int x = 0; x < endPositions[y].length; x++) {
-                if (endPositions[y][x] == '0') {
+                if (endPositions[y][x] == 'O') {
                     GpsScore += (long) 100 * y + x;
                 }
             }
@@ -30,13 +30,45 @@ public class WarehouseGpsScorer {
 
     public static char[][] simulateMovements(char[][] warehouseMap, List<Direction> directions) {
         char[][] endPositions = copyGrid(warehouseMap);
-        Point startPosition = findStart(warehouseMap);
+        Point currentPosition = findStart(warehouseMap);
 
         for (Direction direction : directions) {
-            //  Look in map at the neighbour (n) of '@" corresponding with the direction (LEFT (dx = -1; dy = 0), RIGHT (dx = +1; dy = 0), UP (dx = 0; dy = -1) or DOWN (dx = 0; dy = +1))
-            //    If n == '.' -> replace n with '@' and current '@' with '.'
-            //    If n == '#' -> do nothing (continue)
-            //    If n == '0' -> check neighbour of '0' and move both
+            int dx = 0, dy = 0;
+            switch (direction) {
+                case LEFT  -> dx = -1;
+                case RIGHT -> dx = 1;
+                case UP    -> dy = -1;
+                case DOWN  -> dy = 1;
+            }
+
+            int newX = currentPosition.x() + dx;
+            int newY = currentPosition.y() + dy;
+
+            char target = endPositions[newY][newX];
+
+            if (target == '.') {
+                endPositions[currentPosition.y()][currentPosition.x()] = '.';
+                endPositions[newY][newX] = '@';
+                currentPosition = new Point(newX, newY);
+
+            } else if (target == 'O') {
+                int nextX = newX;
+                int nextY = newY;
+
+                while (endPositions[nextY][nextX] == 'O') {
+                    nextX += dx;
+                    nextY += dy;
+                }
+
+                char nextTarget = endPositions[nextY][nextX];
+
+                if (nextTarget == '.') {
+                    endPositions[nextY][nextX] = 'O';
+                    endPositions[newY][newX] = '@';
+                    endPositions[currentPosition.y()][currentPosition.x()] = '.'; // oude robotpositie leeg
+                    currentPosition = new Point(newX, newY);
+                }
+            }
         }
 
         return endPositions;
@@ -58,6 +90,6 @@ public class WarehouseGpsScorer {
                 }
             }
         }
-        return null;
+        return new Point(0, 0);
     }
 }
