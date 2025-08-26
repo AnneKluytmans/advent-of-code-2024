@@ -83,12 +83,12 @@ public class PuzzleInput {
             >v^^v<<>>^>^<v<<<^^vv<<><^^^v>^>^>v^<>^^<^v><<v>v^><v^>^>>>vv^vv<<<v^<v>^vv^v><^v<<^vv>>^><v>v><>v^v<<>v<<v^v>v><><v>^v<v<v>v^^v>^^>^><^<^v<^>v<vv><v<^^>v<>>^^^v<^vvv<>^<<><>^<^>^v>>^>v<^^>v><<>v<^^>>><^<^>vv<>^<v^<^^<>^^vv>^v><^<^v^^v^><<<^<v>vv<<^^v^^^<^^^^vv>^v>^v^<<v>v^<v>>v<^v>^v^<^><<vv>>v>^>^^<vv<>^^vvvv>^>vvv>><v>vv<v>^><v<^^>>^^vvv>v<<vvv<^^><>v<v<<<<><v^v<<<^^>v<v>>>^>vv^<><v^<v>v<<<>^^v<>^v^v>v>>^<<>>^v>^<v>^<^>^<><>^v^^>>v^<<v><v^>vvv^>><^^>>v^<>^^^>>>><^>^<<^>^<><^<^v>^>^<<v<v<>^^v^^>v><<<<v>>>v^<<^>v^v<><^<>^^vv^vv<^<^v<^^><<v<><^><^<>v^v<^^<^<<^^>><<>^>^>^><<^^v^<>^^^<^>^<>>><v><^^<^^>v^v>^^>^<^vv^>v^<v>^>v><>v^v<<v^v>>>^v<vv<v>>^^^<^^<v<<vv^>^>^<>>^>v^^v<v>^<<>>>^v^>^<^^<^v>^<vvv<^^v^>^<v<^vv<>><<<^v^v><^v^<v^<<>^>^>^<^^^>><><v<v<<vv>^^><>><^v><v^v<><<^^v>>^v<v>>v<>v>^>vvv>>v>^<^^v>vv^^<^>^<><>>>>v^^^v^<<>>v>v^>^<<v^>^><<^v<>>v>^^<<<>^>vv<^^v<>>^<><<<v^v<v>><>^<>>v<^v^<<<<>>>><v>^>vv<v>>^^>v^v><^v<v^><>^<<>v^<^<^<v<><>v<>^v>v>v>^v^^<<<><v^v><<>>v><>v<>^vv<v<vvv^^<<>^<^v
             """;
 
-    private final char[][] puzzleMap = CreatePuzzleBoard.createPuzzleBoard(puzzleInputMap);
+    private final char[][] map = CreatePuzzleBoard.createPuzzleBoard(puzzleInputMap);
 
     private final List<Direction> directions = parseDirections();
 
-    public char[][] getPuzzleMap() {
-        return puzzleMap;
+    public char[][] getMap() {
+        return map;
     }
 
     public List<Direction> getDirections() {
@@ -102,7 +102,5 @@ public class PuzzleInput {
                 .filter(Objects::nonNull)
                 .toList();
     }
-
-
 
 }
