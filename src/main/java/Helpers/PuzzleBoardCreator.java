@@ -1,6 +1,6 @@
 package Helpers;
 
-public class CreatePuzzleBoard {
+public class PuzzleBoardCreator {
     public static char[][] createPuzzleBoard(String puzzleInput) {
         String[] puzzleBoardRows = puzzleInput.split("\n");
         int rows = puzzleBoardRows.length;

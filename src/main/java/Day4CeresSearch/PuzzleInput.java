@@ -1,6 +1,6 @@
 package Day4CeresSearch;
 
-import Helpers.CreatePuzzleBoard;
+import Helpers.PuzzleBoardCreator;
 
 public class PuzzleInput {
     private static final String puzzleInput = """
@@ -145,7 +145,7 @@ public class PuzzleInput {
             XAMAAMMSAMMSMSXSASXMMMMMMSMMAMXSSMSSXSAMXXMMAASXMMMAMSXAAMAMAMMSAMMXSAMASXMMSSMASMASXMMSMAMMXMASASAXMAMSAMASAXMSSSMSSSMMAAMASAAASAAAAAAAXMAS
             XXMAMMXSMMXAXXMSMSAMXXXXXXXMXSXXAXMMXSASXMXMSSMXAASXSAMXSMSSXMASMMSAMXMXXXSXSMSSXMMSMXSXMASMXMSSSMASMMMSASXMMSAMXMXXMMASMSSXSXSASMSMSMSMSSMS""";
 
-    private final char[][] puzzleBoard = CreatePuzzleBoard.createPuzzleBoard(puzzleInput);
+    private final char[][] puzzleBoard = PuzzleBoardCreator.createPuzzleBoard(puzzleInput);
 
     public String getPuzzleInput() {
         return puzzleInput;

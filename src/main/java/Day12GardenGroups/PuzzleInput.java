@@ -1,6 +1,6 @@
 package Day12GardenGroups;
 
-import Helpers.CreatePuzzleBoard;
+import Helpers.PuzzleBoardCreator;
 
 public class PuzzleInput {
     private final String puzzleInput = """
@@ -146,7 +146,7 @@ RRRRRRRRRRRRRRRRRRRRRRREEEEEEEEEEEEEEEEEQSSSFFFFFFFFFFFFFFFLLFFFFPPPNNNNNNMNMMMM
 RRRRRRRRRRRRRRRRRRRRRRREEEEEEEEEEEEEEEEQQSSSSSSSSFFFFFXFFNNNLFFFFPPPNNBBNMMMMMMMMMMMMMMMMMMIIIIIIIIIIIIIIIIIQGGGGGGGGZZZZZZNWWWWWWAUUUUUUUUU
     """;
 
-    private final char[][] puzzleBoard = CreatePuzzleBoard.createPuzzleBoard(puzzleInput);
+    private final char[][] puzzleBoard = PuzzleBoardCreator.createPuzzleBoard(puzzleInput);
 
     public char[][] getPuzzleBoard() {
         return puzzleBoard;
