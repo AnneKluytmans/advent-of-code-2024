@@ -15,4 +15,20 @@ public enum Direction {
             default -> null;
         };
     }
+
+    public static int dx(Direction d) {
+        return switch (d) {
+            case UP, DOWN -> 0;
+            case LEFT -> -1;
+            case RIGHT -> 1;
+        };
+    }
+
+    public static int dy(Direction d) {
+        return switch (d) {
+            case UP -> -1;
+            case DOWN -> 1;
+            case LEFT, RIGHT -> 0;
+        };
+    }
 }

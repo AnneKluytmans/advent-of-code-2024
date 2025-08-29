@@ -30,50 +30,40 @@ public class WarehouseGpsScorer {
         return gpsScore;
     }
 
-    public static char[][] simulateMovements(char[][] map, List<Direction> directions) {
-        char[][] warehouseMap = GridCopier.copyGrid(map);
-        Point robotPosition = CharFinder.findChar(map, '@');
+    public static char[][] simulateMovements(char[][] warehouseMap, List<Direction> directions) {
+        char[][] map = GridCopier.copyGrid(warehouseMap);
+        Point robotPosition = CharFinder.findChar(warehouseMap, '@');
 
         for (Direction direction : directions) {
-            int dx = 0, dy = 0;
-            switch (direction) {
-                case LEFT  -> dx = -1;
-                case RIGHT -> dx = 1;
-                case UP    -> dy = -1;
-                case DOWN  -> dy = 1;
-            }
+            int dx = Direction.dx(direction);
+            int dy = Direction.dy(direction);
 
-            int targetX = robotPosition.x() + dx;
-            int targetY = robotPosition.y() + dy;
+            int nx = robotPosition.x() + dx;
+            int ny = robotPosition.y() + dy;
 
-            char target = warehouseMap[targetY][targetX];
+            char target = map[ny][nx];
 
             if (target == '.') {
-                warehouseMap[robotPosition.y()][robotPosition.x()] = '.';
-                warehouseMap[targetY][targetX] = '@';
-                robotPosition = new Point(targetX, targetY);
-
+                robotPosition = WarehouseUtils.moveRobot(robotPosition, nx, ny, map);
             } else if (target == 'O') {
-                int nextX = targetX;
-                int nextY = targetY;
+                int nextX = nx;
+                int nextY = ny;
 
-                while (warehouseMap[nextY][nextX] == 'O') {
+                while (map[nextY][nextX] == 'O') {
                     nextX += dx;
                     nextY += dy;
                 }
 
-                char nextTarget = warehouseMap[nextY][nextX];
+                char nextTarget = map[nextY][nextX];
 
                 if (nextTarget == '.') {
-                    warehouseMap[nextY][nextX] = 'O';
-                    warehouseMap[targetY][targetX] = '@';
-                    warehouseMap[robotPosition.y()][robotPosition.x()] = '.';
-                    robotPosition = new Point(targetX, targetY);
+                    map[nextY][nextX] = 'O';
+                    robotPosition = WarehouseUtils.moveRobot(robotPosition, nx, ny, map);
                 }
             }
         }
 
-        return warehouseMap;
+        return map;
     }
 
 }
