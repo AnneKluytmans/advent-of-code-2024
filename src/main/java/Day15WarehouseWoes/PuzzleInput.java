@@ -85,7 +85,7 @@ public class PuzzleInput {
 
     private final char[][] map = PuzzleBoardCreator.createPuzzleBoard(puzzleInputMap);
 
-    private final List<Direction> directions = parseDirections();
+    private final List<Direction> directions = parseDirections(puzzleInputDirections);
 
     public char[][] getMap() {
         return map;
@@ -96,8 +96,8 @@ public class PuzzleInput {
     }
 
 
-    private List<Direction> parseDirections() {
-        return puzzleInputDirections.chars()
+    private List<Direction> parseDirections(String input) {
+        return input.chars()
                 .mapToObj(c -> Direction.fromChar((char) c))
                 .filter(Objects::nonNull)
                 .toList();

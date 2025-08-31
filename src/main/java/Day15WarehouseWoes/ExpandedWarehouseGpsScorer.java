@@ -42,72 +42,55 @@ public class ExpandedWarehouseGpsScorer {
             int nx = robotPosition.x() + dx;
             int ny = robotPosition.y() + dy;
 
-            char target = map[nx][ny];
+            char target = map[ny][nx];
 
             if (target == '.') {
-                WarehouseUtils.moveRobot(robotPosition, nx, ny, map);
+                robotPosition = WarehouseUtils.moveRobot(robotPosition, nx, ny, map);
             } else if (target == '[' || target == ']') {
-                if (direction == Direction.UP || direction == Direction.DOWN) {
-                    if (tryPushVertical(map, dy, nx, ny)) {
-                        robotPosition = WarehouseUtils.moveRobot(robotPosition, nx, ny, map);
-                    }
-                } else {
-                    if (tryPushHorizontal(map, dx, dy, nx, ny)) {
-                        robotPosition = WarehouseUtils.moveRobot(robotPosition, nx, ny, map);
-                    }
+                if (tryPush(map, dx, dy, nx, ny)) {
+                    robotPosition = WarehouseUtils.moveRobot(robotPosition, nx, ny, map);
                 }
             }
         }
         return map;
     }
 
-    public static boolean tryPushVertical(char[][] map, int dy, int nx, int ny) {
+    public static boolean tryPush(char[][] map, int dx, int dy, int nx, int ny) {
         List<int[]> boxes = new ArrayList<>();
-        collectBoxes(map, nx, ny, dy, boxes);
+        collectBoxes(map, nx, ny, dx, dy, boxes);
 
         if (boxes.isEmpty()) return false;
 
         for (int[] box : boxes) {
             int bx = box[0];
             int by = box[1];
-            if (map[by + dy][bx] == '#' || map[by + dy][bx + 1] == '#') return false;
+            if (map[by + dy][bx + dx] == '#' || map[by + dy][bx + 1 + dx] == '#') return false;
         }
 
-        boxes.sort((a, b) -> dy > 0 ? b[1] - a[1] : a[1] - b[1]);
+        boxes.sort((a, b) -> {
+            if (dx != 0) {
+                return dx > 0 ? b[0] - a[0] : a[0] - b[0];
+            } else {
+                return dy > 0 ? b[1] - a[1] : a[1] - b[1];
+            }
+        });
 
         for (int[] box : boxes) {
             int bx = box[0];
             int by = box[1];
+
             map[by][bx] = '.';
             map[by][bx + 1] = '.';
-            map[by + dy][bx] = '[';
-            map[bx + dy][bx + 1] = ']';
+
+            map[by + dy][bx + dx] = '[';
+            map[by + dy][bx + 1 + dx] = ']';
         }
 
         return true;
     }
 
-    public static boolean tryPushHorizontal(char[][] map, int dx, int dy, int nx, int ny) {
-        int nextX = nx;
-        int nextY = ny;
 
-        while (map[nextY][nextX] == '[' || map[nextY][nextX] == ']') {
-            nextX += dx;
-            nextY += dy;
-        }
-
-        char nextTarget = map[nextY][nextX];
-
-        if (nextTarget == '.') {
-            map[nextY][nextX] = ']';
-            return true;
-        }
-
-        return false;
-    }
-
-
-    private static void collectBoxes(char[][] map, int x, int y, int dy, List<int[]> boxes) {
+    private static void collectBoxes(char[][] map, int x, int y, int dx, int dy, List<int[]> boxes) {
         char target = map[y][x];
         if (target != '[' && target != ']') {
             return;
@@ -123,12 +106,12 @@ public class ExpandedWarehouseGpsScorer {
 
         boxes.add(new int[]{leftX, y});
 
-        char aboveLeft  = map[y + dy][leftX];
-        char aboveRight = map[y + dy][leftX + 1];
+        char nextLeft  = map[y + dy][leftX + dx];
+        char nextRight = map[y + dy][leftX + 1 + dx];
 
-        if (aboveLeft == '[' || aboveLeft == ']' || aboveRight == '[' || aboveRight == ']') {
-            collectBoxes(map, leftX, y + dy, dy, boxes);
-            collectBoxes(map, leftX + 1, y + dy, dy, boxes);
+        if (nextLeft == '[' || nextLeft == ']' || nextRight == '[' || nextRight == ']') {
+            collectBoxes(map, leftX + dx, y + dy, dx, dy, boxes);
+            collectBoxes(map, leftX + 1 + dx, y + dy, dx, dy, boxes);
         }
     }
 
