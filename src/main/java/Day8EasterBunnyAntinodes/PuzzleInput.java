@@ -1,6 +1,6 @@
 package Day8EasterBunnyAntinodes;
 
-import Helpers.CreatePuzzleBoard;
+import Helpers.PuzzleBoardCreator;
 
 public class PuzzleInput {
     private static final String puzzleInput = """
@@ -55,7 +55,7 @@ public class PuzzleInput {
             ..................................................
             .................x....c........................E..""";
 
-    private final char[][] antennaMap = CreatePuzzleBoard.createPuzzleBoard(puzzleInput);
+    private final char[][] antennaMap = PuzzleBoardCreator.createPuzzleBoard(puzzleInput);
 
     public String getPuzzleInput() {
         return puzzleInput;
