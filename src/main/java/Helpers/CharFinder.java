@@ -1,7 +1,5 @@
 package Helpers;
 
-import Day15WarehouseWoes.Point;
-
 public class CharFinder {
     public static Point findChar(char[][] map, char target) {
         for (int y = 0; y < map.length; y++) {
@@ -11,6 +9,6 @@ public class CharFinder {
                 }
             }
         }
-        return new Point(0, 0);
+        throw new IllegalArgumentException("Char '" + target + "' not found on map");
     }
 }
