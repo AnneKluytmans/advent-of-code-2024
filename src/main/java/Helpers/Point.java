@@ -1,4 +1,4 @@
-package Day15WarehouseWoes;
+package Helpers;
 
 public record Point(int x, int y) {
 }

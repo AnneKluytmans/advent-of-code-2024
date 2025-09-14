@@ -2,6 +2,7 @@ package Day15WarehouseWoes;
 
 import Helpers.CharFinder;
 import Helpers.GridCopier;
+import Helpers.Point;
 
 import java.util.List;
 
